@@ -39,16 +39,17 @@
             System.Windows.Forms.Label label22;
             System.Windows.Forms.Label label24;
             System.Windows.Forms.Label label25;
+            System.Windows.Forms.Label label1;
             System.Windows.Forms.Label label18;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ScanV1));
             this.buttonPost = new System.Windows.Forms.Button();
             this.tabMenu = new System.Windows.Forms.TabControl();
             this.firstPage = new System.Windows.Forms.TabPage();
-            this.button6 = new System.Windows.Forms.Button();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.pass = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
             this.labelAuth = new System.Windows.Forms.Label();
             this.buttonAuth = new System.Windows.Forms.Button();
-            this.login1c = new System.Windows.Forms.TextBox();
+            this.login = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.button3 = new System.Windows.Forms.Button();
@@ -61,6 +62,7 @@
             this.button2 = new System.Windows.Forms.Button();
             this.numberDoc = new System.Windows.Forms.TextBox();
             this.splitter2 = new System.Windows.Forms.Splitter();
+            this.nomenclature = new System.Windows.Forms.ComboBox();
             this.komment = new System.Windows.Forms.TextBox();
             this.dmStupic = new System.Windows.Forms.TextBox();
             this.dmKolesa = new System.Windows.Forms.TextBox();
@@ -73,14 +75,12 @@
             this.buttonGet = new System.Windows.Forms.Button();
             this.label9 = new System.Windows.Forms.Label();
             this.spravka = new System.Windows.Forms.TabPage();
-            this.label10 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.button1 = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.tabSettings = new System.Windows.Forms.TabPage();
             this.debugMod = new System.Windows.Forms.CheckBox();
             this.getGoodsMethod = new System.Windows.Forms.TextBox();
+            this.loadGoods = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
             this.buttonSaveSet = new System.Windows.Forms.Button();
             this.postMethod = new System.Windows.Forms.TextBox();
@@ -108,6 +108,7 @@
             label22 = new System.Windows.Forms.Label();
             label24 = new System.Windows.Forms.Label();
             label25 = new System.Windows.Forms.Label();
+            label1 = new System.Windows.Forms.Label();
             label18 = new System.Windows.Forms.Label();
             this.tabMenu.SuspendLayout();
             this.firstPage.SuspendLayout();
@@ -146,7 +147,7 @@
             label15.Location = new System.Drawing.Point(7, 243);
             label15.Name = "label15";
             label15.Size = new System.Drawing.Size(176, 40);
-            label15.Text = "Имя базы 1С:";
+            label15.Text = "Имя базы данных:";
             // 
             // label16
             // 
@@ -165,23 +166,25 @@
             // label21
             // 
             label21.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Regular);
-            label21.Location = new System.Drawing.Point(7, 96);
+            label21.Location = new System.Drawing.Point(7, 152);
             label21.Name = "label21";
             label21.Size = new System.Drawing.Size(254, 28);
             label21.Text = "Диаметр круга катания:";
+            label21.Visible = false;
             // 
             // label22
             // 
             label22.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Regular);
-            label22.Location = new System.Drawing.Point(7, 171);
+            label22.Location = new System.Drawing.Point(7, 227);
             label22.Name = "label22";
             label22.Size = new System.Drawing.Size(254, 28);
             label22.Text = "Диаметр отв. ступицы:";
+            label22.Visible = false;
             // 
             // label24
             // 
             label24.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Regular);
-            label24.Location = new System.Drawing.Point(7, 264);
+            label24.Location = new System.Drawing.Point(7, 314);
             label24.Name = "label24";
             label24.Size = new System.Drawing.Size(233, 28);
             label24.Text = "Комментарий:";
@@ -193,13 +196,21 @@
             label25.Size = new System.Drawing.Size(173, 40);
             label25.Text = "GET товары:";
             // 
+            // label1
+            // 
+            label1.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Regular);
+            label1.Location = new System.Drawing.Point(7, 78);
+            label1.Name = "label1";
+            label1.Size = new System.Drawing.Size(182, 27);
+            label1.Text = "Номенклатура:";
+            // 
             // label18
             // 
             label18.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Regular);
             label18.Location = new System.Drawing.Point(7, 7);
             label18.Name = "label18";
             label18.Size = new System.Drawing.Size(254, 24);
-            label18.Text = "Номер описи:";
+            label18.Text = "Номер документа:";
             // 
             // buttonPost
             // 
@@ -209,7 +220,7 @@
             this.buttonPost.Name = "buttonPost";
             this.buttonPost.Size = new System.Drawing.Size(447, 66);
             this.buttonPost.TabIndex = 2;
-            this.buttonPost.Text = "Отправить в 1С";
+            this.buttonPost.Text = "Send to server";
             this.buttonPost.Click += new System.EventHandler(this.buttonPost_Click);
             // 
             // tabMenu
@@ -227,11 +238,11 @@
             // 
             // firstPage
             // 
-            this.firstPage.Controls.Add(this.button6);
-            this.firstPage.Controls.Add(this.pictureBox1);
+            this.firstPage.Controls.Add(this.pass);
+            this.firstPage.Controls.Add(this.label6);
             this.firstPage.Controls.Add(this.labelAuth);
             this.firstPage.Controls.Add(this.buttonAuth);
-            this.firstPage.Controls.Add(this.login1c);
+            this.firstPage.Controls.Add(this.login);
             this.firstPage.Controls.Add(this.label4);
             this.firstPage.Controls.Add(this.label3);
             this.firstPage.Controls.Add(this.button3);
@@ -240,23 +251,19 @@
             this.firstPage.Size = new System.Drawing.Size(480, 596);
             this.firstPage.Text = "Start";
             // 
-            // button6
+            // pass
             // 
-            this.button6.Enabled = false;
-            this.button6.Location = new System.Drawing.Point(7, 89);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(144, 40);
-            this.button6.TabIndex = 24;
-            this.button6.Text = "button6";
-            this.button6.Visible = false;
-            this.button6.Click += new System.EventHandler(this.button6_Click);
+            this.pass.Location = new System.Drawing.Point(178, 144);
+            this.pass.Name = "pass";
+            this.pass.Size = new System.Drawing.Size(219, 41);
+            this.pass.TabIndex = 30;
             // 
-            // pictureBox1
+            // label6
             // 
-            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(149, 36);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(167, 122);
+            this.label6.Location = new System.Drawing.Point(33, 155);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(125, 30);
+            this.label6.Text = "Password:";
             // 
             // labelAuth
             // 
@@ -272,32 +279,32 @@
             this.buttonAuth.Name = "buttonAuth";
             this.buttonAuth.Size = new System.Drawing.Size(219, 44);
             this.buttonAuth.TabIndex = 14;
-            this.buttonAuth.Text = "Авторизоваться";
+            this.buttonAuth.Text = "Get auth";
             this.buttonAuth.Click += new System.EventHandler(this.buttonAuth_Click);
             // 
-            // login1c
+            // login
             // 
-            this.login1c.Location = new System.Drawing.Point(129, 164);
-            this.login1c.Name = "login1c";
-            this.login1c.Size = new System.Drawing.Size(219, 41);
-            this.login1c.TabIndex = 9;
-            this.login1c.GotFocus += new System.EventHandler(this.sertificate_GotFocus);
-            this.login1c.LostFocus += new System.EventHandler(this.sertificate_LostFocus);
+            this.login.Location = new System.Drawing.Point(178, 97);
+            this.login.Name = "login";
+            this.login.Size = new System.Drawing.Size(219, 41);
+            this.login.TabIndex = 9;
+            this.login.GotFocus += new System.EventHandler(this.sertificate_GotFocus);
+            this.login.LostFocus += new System.EventHandler(this.sertificate_LostFocus);
             // 
             // label4
             // 
-            this.label4.Location = new System.Drawing.Point(23, 175);
+            this.label4.Location = new System.Drawing.Point(33, 108);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(86, 30);
-            this.label4.Text = "Логин:";
+            this.label4.Size = new System.Drawing.Size(125, 30);
+            this.label4.Text = "Login:";
             // 
             // label3
             // 
             this.label3.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold);
-            this.label3.Location = new System.Drawing.Point(140, 0);
+            this.label3.Location = new System.Drawing.Point(178, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(199, 33);
-            this.label3.Text = "Опись вагона";
+            this.label3.Size = new System.Drawing.Size(137, 33);
+            this.label3.Text = "Main page";
             // 
             // button3
             // 
@@ -317,7 +324,7 @@
             this.secondPage.Controls.Add(this.buttonPost);
             this.secondPage.Location = new System.Drawing.Point(0, 0);
             this.secondPage.Name = "secondPage";
-            this.secondPage.Size = new System.Drawing.Size(472, 602);
+            this.secondPage.Size = new System.Drawing.Size(480, 596);
             this.secondPage.Text = "QR";
             this.secondPage.DoubleClick += new System.EventHandler(this.sertificate_LostFocus);
             // 
@@ -345,7 +352,7 @@
             this.tabControl1.Controls.Add(this.subTabPage1);
             this.tabControl1.Controls.Add(this.subTabPage2);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.None;
-            this.tabControl1.Location = new System.Drawing.Point(-4, 30);
+            this.tabControl1.Location = new System.Drawing.Point(0, 27);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(480, 475);
@@ -360,6 +367,8 @@
             this.subTabPage1.Controls.Add(label18);
             this.subTabPage1.Controls.Add(this.numberDoc);
             this.subTabPage1.Controls.Add(this.splitter2);
+            this.subTabPage1.Controls.Add(this.nomenclature);
+            this.subTabPage1.Controls.Add(label1);
             this.subTabPage1.Controls.Add(this.komment);
             this.subTabPage1.Controls.Add(label24);
             this.subTabPage1.Controls.Add(label21);
@@ -375,7 +384,7 @@
             // button10
             // 
             this.button10.Enabled = false;
-            this.button10.Location = new System.Drawing.Point(313, 171);
+            this.button10.Location = new System.Drawing.Point(297, 258);
             this.button10.Name = "button10";
             this.button10.Size = new System.Drawing.Size(144, 40);
             this.button10.TabIndex = 79;
@@ -386,7 +395,7 @@
             // button2
             // 
             this.button2.Enabled = false;
-            this.button2.Location = new System.Drawing.Point(313, 96);
+            this.button2.Location = new System.Drawing.Point(297, 183);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(144, 40);
             this.button2.TabIndex = 72;
@@ -411,9 +420,16 @@
             this.splitter2.Name = "splitter2";
             this.splitter2.Size = new System.Drawing.Size(480, 4);
             // 
+            // nomenclature
+            // 
+            this.nomenclature.Location = new System.Drawing.Point(7, 108);
+            this.nomenclature.Name = "nomenclature";
+            this.nomenclature.Size = new System.Drawing.Size(443, 41);
+            this.nomenclature.TabIndex = 56;
+            // 
             // komment
             // 
-            this.komment.Location = new System.Drawing.Point(7, 295);
+            this.komment.Location = new System.Drawing.Point(7, 345);
             this.komment.Name = "komment";
             this.komment.Size = new System.Drawing.Size(450, 41);
             this.komment.TabIndex = 31;
@@ -422,19 +438,21 @@
             // 
             // dmStupic
             // 
-            this.dmStupic.Location = new System.Drawing.Point(7, 202);
+            this.dmStupic.Location = new System.Drawing.Point(7, 258);
             this.dmStupic.Name = "dmStupic";
             this.dmStupic.Size = new System.Drawing.Size(233, 41);
             this.dmStupic.TabIndex = 19;
+            this.dmStupic.Visible = false;
             this.dmStupic.GotFocus += new System.EventHandler(this.sertificate_GotFocus);
             this.dmStupic.LostFocus += new System.EventHandler(this.sertificate_LostFocus);
             // 
             // dmKolesa
             // 
-            this.dmKolesa.Location = new System.Drawing.Point(7, 127);
+            this.dmKolesa.Location = new System.Drawing.Point(7, 183);
             this.dmKolesa.Name = "dmKolesa";
             this.dmKolesa.Size = new System.Drawing.Size(233, 41);
             this.dmKolesa.TabIndex = 16;
+            this.dmKolesa.Visible = false;
             this.dmKolesa.GotFocus += new System.EventHandler(this.sertificate_GotFocus);
             this.dmKolesa.LostFocus += new System.EventHandler(this.sertificate_LostFocus);
             // 
@@ -450,7 +468,7 @@
             this.subTabPage2.Location = new System.Drawing.Point(0, 0);
             this.subTabPage2.Name = "subTabPage2";
             this.subTabPage2.Size = new System.Drawing.Size(472, 437);
-            this.subTabPage2.Text = "Номера колес";
+            this.subTabPage2.Text = "Список продукции";
             this.subTabPage2.DoubleClick += new System.EventHandler(this.sertificate_LostFocus);
             // 
             // countWheels
@@ -518,43 +536,16 @@
             // 
             this.spravka.AutoScroll = true;
             this.spravka.AutoScrollMargin = new System.Drawing.Size(0, 20);
-            this.spravka.Controls.Add(this.label10);
-            this.spravka.Controls.Add(this.label7);
-            this.spravka.Controls.Add(this.pictureBox2);
             this.spravka.Controls.Add(this.button1);
             this.spravka.Controls.Add(this.label2);
             this.spravka.Location = new System.Drawing.Point(0, 0);
             this.spravka.Name = "spravka";
-            this.spravka.Size = new System.Drawing.Size(480, 596);
+            this.spravka.Size = new System.Drawing.Size(472, 602);
             this.spravka.Text = "Info";
-            // 
-            // label10
-            // 
-            this.label10.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
-            this.label10.Location = new System.Drawing.Point(189, 630);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(124, 40);
-            this.label10.Text = "v1.1.2";
-            this.label10.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            // 
-            // label7
-            // 
-            this.label7.Location = new System.Drawing.Point(77, 695);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(338, 56);
-            this.label7.Text = "     (c) Railways Systems KZ  \r\n                   2023";
-            // 
-            // pictureBox2
-            // 
-            this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
-            this.pictureBox2.Location = new System.Drawing.Point(69, 0);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(345, 123);
-            this.pictureBox2.DoubleClick += new System.EventHandler(this.pictureBox2_DoubleClick);
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(420, 0);
+            this.button1.Location = new System.Drawing.Point(447, 0);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(26, 24);
             this.button1.TabIndex = 5;
@@ -564,7 +555,7 @@
             // label2
             // 
             this.label2.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Regular);
-            this.label2.Location = new System.Drawing.Point(7, 126);
+            this.label2.Location = new System.Drawing.Point(7, 38);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(448, 441);
             this.label2.Text = resources.GetString("label2.Text");
@@ -576,6 +567,7 @@
             this.tabSettings.Controls.Add(this.debugMod);
             this.tabSettings.Controls.Add(this.getGoodsMethod);
             this.tabSettings.Controls.Add(label25);
+            this.tabSettings.Controls.Add(this.loadGoods);
             this.tabSettings.Controls.Add(this.button5);
             this.tabSettings.Controls.Add(this.buttonSaveSet);
             this.tabSettings.Controls.Add(this.postMethod);
@@ -593,14 +585,14 @@
             this.tabSettings.Controls.Add(label11);
             this.tabSettings.Location = new System.Drawing.Point(0, 0);
             this.tabSettings.Name = "tabSettings";
-            this.tabSettings.Size = new System.Drawing.Size(472, 602);
+            this.tabSettings.Size = new System.Drawing.Size(480, 596);
             this.tabSettings.Text = "Settings";
             this.tabSettings.DoubleClick += new System.EventHandler(this.sertificate_LostFocus);
             // 
             // debugMod
             // 
             this.debugMod.Enabled = false;
-            this.debugMod.Location = new System.Drawing.Point(157, 649);
+            this.debugMod.Location = new System.Drawing.Point(158, 987);
             this.debugMod.Name = "debugMod";
             this.debugMod.Size = new System.Drawing.Size(148, 43);
             this.debugMod.TabIndex = 88;
@@ -616,6 +608,16 @@
             this.getGoodsMethod.GotFocus += new System.EventHandler(this.sertificate_GotFocus);
             this.getGoodsMethod.LostFocus += new System.EventHandler(this.sertificate_LostFocus);
             // 
+            // loadGoods
+            // 
+            this.loadGoods.Enabled = false;
+            this.loadGoods.Location = new System.Drawing.Point(71, 698);
+            this.loadGoods.Name = "loadGoods";
+            this.loadGoods.Size = new System.Drawing.Size(340, 48);
+            this.loadGoods.TabIndex = 40;
+            this.loadGoods.Text = "Обновить товары";
+            this.loadGoods.Click += new System.EventHandler(this.loadGoods_Click);
+            // 
             // button5
             // 
             this.button5.Location = new System.Drawing.Point(424, 0);
@@ -628,7 +630,7 @@
             // buttonSaveSet
             // 
             this.buttonSaveSet.Enabled = false;
-            this.buttonSaveSet.Location = new System.Drawing.Point(157, 563);
+            this.buttonSaveSet.Location = new System.Drawing.Point(158, 901);
             this.buttonSaveSet.Name = "buttonSaveSet";
             this.buttonSaveSet.Size = new System.Drawing.Size(148, 46);
             this.buttonSaveSet.TabIndex = 30;
@@ -678,7 +680,7 @@
             // label13
             // 
             this.label13.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Regular);
-            this.label13.Location = new System.Drawing.Point(21, 438);
+            this.label13.Location = new System.Drawing.Point(22, 776);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(429, 106);
             this.label13.Text = "ВНИМАНИЕ! Настройки предназначены для администрирования.\r\nПросьба не изменять зна" +
@@ -806,12 +808,11 @@
         private System.Windows.Forms.TabPage spravka;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox login1c;
+        private System.Windows.Forms.TextBox login;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button buttonAuth;
         private System.Windows.Forms.Label labelAuth;
-        private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.TabPage tabSettings;
         private System.Windows.Forms.Button checkPass;
@@ -839,15 +840,13 @@
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.Label countWheels;
-        private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.Button loadGoods;
         private System.Windows.Forms.TextBox getGoodsMethod;
+        private System.Windows.Forms.ComboBox nomenclature;
         private System.Windows.Forms.Splitter splitter2;
         private System.Windows.Forms.TabPage logDoc;
         private System.Windows.Forms.ListBox historyDocs;
         private System.Windows.Forms.TextBox numberDoc;
-        private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button8;
         private System.Windows.Forms.Button button7;
@@ -856,6 +855,8 @@
         private System.Windows.Forms.Button button10;
         private System.Windows.Forms.CheckBox debugMod;
         private System.Windows.Forms.Button button11;
+        private System.Windows.Forms.TextBox pass;
+        private System.Windows.Forms.Label label6;
     }
 }
 

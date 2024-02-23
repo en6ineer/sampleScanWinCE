@@ -25,17 +25,3 @@ NOTE:  all these applications were pre-installed. If you do not have them, you n
 The work of the scanner in the application itself is to place the cursor on the input field and press a special key on the device to read and insert the decrypted barcode.
 
 I would also like to say "Thanks" to all those authors of questions on StackOverFlow who attached their http request code. This helped me a lot, and I hope this code will also help you in developing for WinCE.
-
-#Описание:
-Данная программа предназначена для ОС Windows Mobile 6.5, для устройств ТСД (Терминал Сбора Данных) имеющий 2D позиционированный лазерный сканер, способный считать QR-код.
-Программа представляет собой простой интерфейс с примерным описанием логики работы сканера, например при использовании на складе для формирования отпускной накладной. Считывая коды товаров можно их передать в CRM систему, 1С или другую программу учета.
-
-Чтобы открыть программу требуется довольно старый набор программ который уже сложно скачать с интернета, а именно: 
-Visual Studio 2008 (Professional Edition);
-Microsoft Windows Mobile DTK 6.5;
-Для отладки:
-Microsoft Windows Mobile SDK 6.0 - 6.5 prof. with emulators.
-Ссылка для скачивания DTK/SDK:
-https://archive.org/details/WMSDK
-
-Используемый стек: C# .NET compact framework 3.5;

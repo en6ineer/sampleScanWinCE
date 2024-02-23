@@ -20,12 +20,13 @@ namespace SmartDeviceProject1
         //Public variables:
         public string user = ""; //May be better to take when POST-method performed?
 
-        // For nomenclature:
-        //public Dictionary<string, string> listik = new Dictionary<string, string>();
+        // For goods:
+        public Dictionary<string, string> listik = new Dictionary<string, string>();
 
         // For quick sorting:
         public List<int> intList = new List<int>();
        
+
         public ScanV1()
         {
             InitializeComponent();
@@ -33,98 +34,70 @@ namespace SmartDeviceProject1
 
         private void listAdd() 
         {
-            // For the test:             
-            //textBox1.Text = "{\"Code\": \"21069974093904\",\"HotMarking\": \"698135\",\"Task\": \"21070302\",\"MPD\": 1,\"UT\": 0,\"GM\": 1,\"TG\": 1,\"VI\": 1,\"Маркировка\": \"false\", авпвапавпавпвапавпавпавпавпавпавпавпавпавпавп\"Batch\": \"0217/23  \",\"Melting\": \"\",\"Website\": \"https://prommashkomplekt.kz/ru\"}";
+            // Need write code for new item will be selected in list, for visualize a wheel;
+
+            // For the test:
+           // textBox1.Text = "{\"Code\": \"21069974093904\",\"HotMarkingNumber\": \"698135\",\"TaskNumber\": \"21070302\",\"BatchNumber\": \"\",\"MeltingNumber\": \"\",\"Website\": \"https://prommashkomplekt.kz/ru\"}\n";
+            //textBox1.Text = textBox1.Text + "{\"Code\": \"21069974093904\",\"HotMarkingNumber\": \"698135\",\"TaskNumber\": \"21070302\",\"BatchNumber\": \"\",\"MeltingNumber\": \"\",\"Website\": \"https://prommashkomplekt.kz/ru\"}\n";
+
             if (debugMod.Checked) MessageBox.Show(textBox1.Text);
 
-            if (!textBox1.Text.Contains("HotMarking") && textBox1.Text != "")
+            // Представим алгоритм таким образом:
+            // 1) вхождение в строку, ищем символ " как знак открытия ключа
+           //2) Считываем символы пока не встретим закрывающую "
+           //3) Ищем : как признак значения для ключа
+           //4) Находим открывающую " и считываем значение
+           //5) после этого если встретим , тогда значит мы пришли к новой итеррации ключ-значение
+
+            if (!textBox1.Text.Contains("HotMarkingNumber") && textBox1.Text != "")
             {
 
-                string[] words = textBox1.Text.Split(new char[] { '\r','\n', '*', '#', '\t', ' ' });
+               
+                string[] words = textBox1.Text.Split(new char[] { '\r','\n' });
 
                 foreach (string s in words)
                 {
-                    if (s == "") continue;
-
-                    if (!listCodes.Items.Contains(s))
+                    if (s != "" && !listCodes.Items.Contains(s))
                     {
-
-                        if (s.Length < 6)
-                        {
-                            MessageBox.Show("\"" + s + "\" - не полный номер колеса!");
-                            textBox1.Focus();
-                            return;
-                        }
-   
-                      
                         int ss = int.Parse(s);
                         intList.Add(ss);
                         intList.Sort();
                         listCodes.Items.Insert(intList.IndexOf(ss), s);
-                        
                     }
-                    else MessageBox.Show("Обнаружен дубликат колеса: " + s);
-
                 }
                 textBox1.Text = "";
+
+                //Можно сделать массив разделителей, и по ним определять коды и в цикле их добавлять в список.
             }
 
-            // delete later:
-            //while (textBox1.Text.Contains("HotMarkingNumber"))
-            //{
-            //    int end = textBox1.Text.IndexOf("}");
-            //    string block = textBox1.Text.Substring(0, end);
-            //    textBox1.Text = textBox1.Text.Remove(0, end + 1);
-            //    int start = block.IndexOf("\"HotMarkingNumber\": \"") + 21; //hardcode key's lengh 
-            //    end = block.IndexOf("\",\"TaskNumber\":");
-            //    string s = block.Substring(start, end - start);
-            //    if (!listCodes.Items.Contains(s))
-            //    {
-            //        int ss = int.Parse(s);
-            //        intList.Add(ss);
-            //        intList.Sort();
-            //        listCodes.Items.Insert(intList.IndexOf(ss), s);
-            //        if (debugMod.Checked) MessageBox.Show("Индокс до: " + listCodes.SelectedIndex.ToString());
-            //        listCodes.SelectedIndex = intList.IndexOf(ss); // this may be a failure!
-            //        if (debugMod.Checked) MessageBox.Show("Индокс после: " + listCodes.SelectedIndex.ToString());
-
-            //    }
-            //}
-             // end of delete||
-
-             while (textBox1.Text.Contains("HotMarking"))
+            while (textBox1.Text.Contains("HotMarkingNumber"))
             {
                 int end = textBox1.Text.IndexOf("}");
                 string block = textBox1.Text.Substring(0, end);
-                textBox1.Text = textBox1.Text.Remove(0, end + 1); // Это пробел или символ переноса строки
-                int start = block.IndexOf("\"HotMarking\": \"") +15; // 21 hardcode key's lengh 
-                end = block.IndexOf("\",\"Task\":");
-                string s2 = block.Substring(start, end - start);
-                start = block.IndexOf("MPD");
-                end = block.IndexOf("\"Batch\"");
-                string checks = block.Substring(start, end - start);
-                block = "";
-                foreach (char c in checks)
-                    if (char.IsNumber(c)) block += c;
-
-                if (!listCodes.Items.Contains(s2))
+                textBox1.Text = textBox1.Text.Remove(0, end + 1);
+                int start = block.IndexOf("\"HotMarkingNumber\": \"") + 21; //hardcode key's lengh
+                end = block.IndexOf("\",\"TaskNumber\":");
+                string s = block.Substring(start, end - start);
+                if (!listCodes.Items.Contains(s))
                 {
-                    int ss = int.Parse(s2);
+                    int ss = int.Parse(s);
                     intList.Add(ss);
                     intList.Sort();
-                    listCodes.Items.Insert(intList.IndexOf(ss), s2);
+                    listCodes.Items.Insert(intList.IndexOf(ss), s);
                     if (debugMod.Checked) MessageBox.Show("Индекс до: " + listCodes.SelectedIndex.ToString());
-                    listCodes.SelectedIndex = intList.IndexOf(ss); // this may be a failure!
+                    listCodes.SelectedIndex = intList.IndexOf(ss); 
                     if (debugMod.Checked) MessageBox.Show("Индекс после: " + listCodes.SelectedIndex.ToString());
-                    if (block != "11111") MessageBox.Show("Введенное колесо забраковано!");
+
                 }
-                else
-                {
-                    MessageBox.Show("Обнаружен дубликат колеса: " + s2);
-                }
+            
             }
 
+            //
+            intList.Sort(); // Вопрос сортировки!
+            //
+
             countWheels.Text = "Всего: " + listCodes.Items.Count;
+           // listCodes.SelectedIndex = listCodes.Items.Count - 1;
             textBox1.Focus();
         }
 
@@ -176,7 +149,7 @@ namespace SmartDeviceProject1
             listAdd();
         }
        
-        //Send POST-request in 1С:
+        //Send POST-request:
         private void buttonPost_Click(object sender, EventArgs e)
         {
            //Проверка на лист коды и на заполнение реквизитов.
@@ -188,7 +161,7 @@ namespace SmartDeviceProject1
 
             if (listCodes.Items.Count == 0) 
             { 
-               MessageBox.Show("Список кодов пустой!"); 
+               MessageBox.Show("Список продукции пустой!"); 
                return;
             }
 
@@ -197,7 +170,7 @@ namespace SmartDeviceProject1
             {
                 DialogResult answer1 = MessageBox.Show
                      (
-                     "Не указан номер описи! Продолжить?",
+                     "Не указан номер документа! Продолжить?",
                      "Подтверждение",
                      MessageBoxButtons.YesNo,
                      MessageBoxIcon.Question,
@@ -206,12 +179,10 @@ namespace SmartDeviceProject1
 
                 if (answer1 == DialogResult.No) return;
             }
-
-            
             
             DialogResult answer = MessageBox.Show
                 (
-                "Отправить все данные в 1С?", 
+                "Отправить все данные на сервер?", 
                 "Подтверждение", 
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Question,
@@ -221,12 +192,12 @@ namespace SmartDeviceProject1
             if (answer == DialogResult.Yes)
             {
                 string preData = "{\n";  
-                preData += dmKolesa.Text == "" ? "\"dmkolesa\" : \"\",\n" : "\"dmkolesa\" : " + dmKolesa.Text + ",\n";
-                preData += dmStupic.Text == "" ? "\"dmstupic\" : \"\",\n" : "\"dmstupic\" : " + dmStupic.Text + ",\n";
+                //preData += dmKolesa.Text == "" ? "\"dmkolesa\" : \"\",\n" : "\"dmkolesa\" : " + dmKolesa.Text + ",\n";
+                //preData += dmStupic.Text == "" ? "\"dmstupic\" : \"\",\n" : "\"dmstupic\" : " + dmStupic.Text + ",\n";
                 preData += "\"komment\" : " + "\"" + komment.Text + "\",\n";              
                 preData += "\"user\" : " + "\"" + user + "\",\n";
                 preData += "\"numberdoc\" : " + "\"" + numberDoc.Text + "\",\n";
-                //if (nomenclature.Text != "") preData += "\"nomenclature\" : " + "\"" + listik[nomenclature.Text] + "\",\n";
+                if (nomenclature.Text != "") preData += "\"nomenclature\" : " + "\"" + listik[nomenclature.Text] + "\",\n";
                 //Массив кодов:
                 preData += "\"masiv\" : [{\n";
                 ushort n = 0;
@@ -235,7 +206,7 @@ namespace SmartDeviceProject1
                 {
                     if(!preData.Contains(s))
                     {
-                        preData += "\"koleso" + ++n + "\" : \""+ s + "\",\n"; //Этот участок кода следует убрать в процедуру добавления кода.
+                        preData += "\"thing" + ++n + "\" : \""+ s + "\",\n"; //Этот участок кода следует убрать в процедуру добавления кода.
                     }         
                 }
                 
@@ -266,7 +237,7 @@ namespace SmartDeviceProject1
                      //client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
                    // request.Headers.Add("Authorization", encodedAuth());
                     //Write body:
-                    request.Headers.Add("Authorization", "Basic " + "0JDQtNC80LjQvdC40YHRgtGA0LDRgtC+0YA6engxMjN6eA==");// WARNING!
+                    request.Headers.Add("Authorization", "Basic " + "base64 code of login:pass");
 
                     //UTF8Encoding encoding = new UTF8Encoding(); // - not work!
                     ASCIIEncoding encoding = new ASCIIEncoding();
@@ -296,7 +267,7 @@ namespace SmartDeviceProject1
                         MessageBox.Show(ex.Message); 
                     }
 
-                if (responseString1.Contains("успешно.")) // добавить обновлен
+                if (responseString1.Contains("успешно."))
                 {
 
                     intList.Clear();
@@ -335,14 +306,14 @@ namespace SmartDeviceProject1
         }
 
         //Process of encoding a login and password (not use):
-        //private string encodedAuth() {
+        private string encodedAuth() {
 
-        //    var byteArray1 = Encoding.ASCII.GetBytes(authLogin.Text + ":"); 
-        //    var byteArray2 = Encoding.ASCII.GetBytes(authPass.Text);
-        //    //client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
-        //   return "Basic " + Convert.ToBase64String(byteArray1) + Convert.ToBase64String(byteArray2);
+            var byteArray1 = Encoding.ASCII.GetBytes(login.Text + ":"); 
+            var byteArray2 = Encoding.ASCII.GetBytes(pass.Text);
+            //client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
+           return "Basic " + Convert.ToBase64String(byteArray1) + Convert.ToBase64String(byteArray2);
         
-        //}
+        }
 
         //Close app:
         private void closeButtonClick(object sender, EventArgs e)
@@ -377,13 +348,13 @@ namespace SmartDeviceProject1
         private void buttonAuth_Click(object sender, EventArgs e)
         {
             
-            labelAuth.Text = ""; //БЫЛО ПУСТЫМ
+            labelAuth.Text = ""; 
             //Проверка на заполнение логина и пароля:
-            if (login1c.Text == "") 
+            if (login.Text == "") 
                 MessageBox.Show("Не заполнен \"Логин\" пользователя для авторизации!");
             else
             {
-                var url = serverText.Text + nameBase1c.Text + getMethod.Text + "?Login=" + login1c.Text; //+ "&Pass=" + pass1c.Text
+                var url = serverText.Text + nameBase1c.Text + getMethod.Text + "?Login=" + login.Text + "&Pass=" + pass.Text;
 
                 var request = (HttpWebRequest)WebRequest.Create(url);
                 request.Method = "GET";
@@ -396,7 +367,7 @@ namespace SmartDeviceProject1
                 //
                 //request.Headers.Add("Authorization", encodedAuth());
                 loadScreen(false);
-                request.Headers.Add("Authorization", "Basic " + "0JDQtNC80LjQvdC40YHRgtGA0LDRgtC+0YA6engxMjN6eA==");//хардкод
+                request.Headers.Add("Authorization", "Basic " + "base64 code of login:pass");
 
                 if (debugMod.Checked) MessageBox.Show(url.ToString());
 
@@ -456,15 +427,13 @@ namespace SmartDeviceProject1
                 getMethod.ReadOnly = false;
                 postMethod.ReadOnly = false;
                 buttonSaveSet.Enabled = true;
-                //loadGoods.Enabled = true;
+                loadGoods.Enabled = true;
                 getGoodsMethod.ReadOnly = false;
-                //authLogin.ReadOnly = false;
-                //authPass.ReadOnly = false;
                 debugMod.Enabled = true;
             }
             else 
             { 
-                MessageBox.Show("Пароль не подходит. Обратитесь в dit_stp@railsystems.kz"); 
+                MessageBox.Show("Пароль не подходит"); 
             }
         }
 
@@ -530,7 +499,7 @@ namespace SmartDeviceProject1
             //string path = "\\Program Files\\config.bin";
 
             // Open the file to read from:
-            string path = "\\Program Files\\QRPMK\\config.bin";
+            string path = "\\Program Files\\nameProgram\\config.bin";
             if (debugMod.Checked) MessageBox.Show(path);
             //Variant for .txt file:
             //using (StreamReader sr = File.OpenText(path))
@@ -553,9 +522,9 @@ namespace SmartDeviceProject1
                         getMethod.Text = reader.ReadString();
                         postMethod.Text = reader.ReadString();
                         //storage.Text = reader.ReadString();
-                        //getGoodsMethod.Text = reader.ReadString();
-                        //authLogin.Text = reader.ReadString();
-                        //authPass.Text = reader.ReadString();
+                        getGoodsMethod.Text = reader.ReadString();
+                        login.Text = reader.ReadString();
+                        pass.Text = reader.ReadString();
                     }
                 }
             }else
@@ -565,39 +534,39 @@ namespace SmartDeviceProject1
 
             //Need will add a new parameter, better new file-config with goods codes and name's
             //For now it will be in Russian, without code\article;
-            //readGoods();
+            readGoods();
             historyRead();
         }
 
-        //private void readGoods()
-        //{
-        //    if (listik.Count != 0) listik.Clear();
-        //    string path = "\\Program Files\\QRPMK\\goods.bin";
-        //    //test:
-        //    // path = "\\Program Files\\goods.bin";
-        //    if (debugMod.Checked) MessageBox.Show(path);
-        //    if (File.Exists(path))
-        //    {
-        //        using (var stream = File.Open(path, FileMode.Open))
-        //        {
-        //            using (var reader = new BinaryReader(stream, Encoding.UTF8))
-        //            {
-        //                int count = reader.ReadInt32();
-        //                for (int i = 0; i < count; i++)
-        //                {
-        //                    string s = reader.ReadString();
-        //                    //MessageBox.Show(s);
-        //                    string a = reader.ReadString();
-        //                    //MessageBox.Show(a);
-        //                    nomenclature.Items.Add(s);
-        //                    //MessageBox.Show("Номенклатуру добавили!");
-        //                    listik.Add(s, a); 
-        //                }
-        //            }
-        //        }
-        //    }
+        private void readGoods()
+        {
+            if (listik.Count != 0) listik.Clear();
+            string path = "\\Program Files\\nameProgram\\goods.bin";
+            //test:
+            // path = "\\Program Files\\goods.bin";
+            if (debugMod.Checked) MessageBox.Show(path);
+            if (File.Exists(path))
+            {
+                using (var stream = File.Open(path, FileMode.Open))
+                {
+                    using (var reader = new BinaryReader(stream, Encoding.UTF8))
+                    {
+                        int count = reader.ReadInt32();
+                        for (int i = 0; i < count; i++)
+                        {
+                            string s = reader.ReadString();
+                            //MessageBox.Show(s);
+                            string a = reader.ReadString();
+                            //MessageBox.Show(a);
+                            nomenclature.Items.Add(s);
+                            //MessageBox.Show("Номенклатуру добавили!");
+                            listik.Add(s, a); 
+                        }
+                    }
+                }
+            }
 
-        //}
+        }
 
         // Write settings (string's) to bin file:
         private void buttonSaveSet_Click(object sender, EventArgs e)
@@ -635,8 +604,8 @@ namespace SmartDeviceProject1
                         writer.Write(getMethod.Text);
                         writer.Write(postMethod.Text);
                         writer.Write(getGoodsMethod.Text);
-                        //writer.Write(authLogin.Text);
-                        //writer.Write(authPass.Text);
+                        writer.Write(login.Text);
+                        writer.Write(pass.Text);
                         
                     }
                 }
@@ -650,71 +619,71 @@ namespace SmartDeviceProject1
         }
 
         // Get request in to base 1C, in order to get list of goods:
-        //private void loadGoods_Click(object sender, EventArgs e)
-        //{
-        //    // Суть метода заключается в том чтобы сделать get запрос к базе 1с,
-        //    // для загрузки изменений в номенклатуре базы 1с. Мы получаем ответ с значениями номенклатур, их выводим в список.
+        private void loadGoods_Click(object sender, EventArgs e)
+        {
+            // Суть метода заключается в том чтобы сделать get запрос к базе 1с,
+            // для загрузки изменений в номенклатуре базы 1с. Мы получаем ответ с значениями номенклатур, их выводим в список.
             
-        //    var url = serverText.Text + nameBase1c.Text + getGoodsMethod.Text;
-        //    var request = (HttpWebRequest)WebRequest.Create(url);
+            var url = serverText.Text + nameBase1c.Text + getGoodsMethod.Text;
+            var request = (HttpWebRequest)WebRequest.Create(url);
 
-        //    if (debugMod.Checked) MessageBox.Show(url.ToString());
+            if (debugMod.Checked) MessageBox.Show(url.ToString());
 
-        //    request.Method = "GET";
-        //    request.KeepAlive = false;
-        //    request.Timeout = 60000;
-        //    string responseString ="";
-        //    request.Headers.Add("Authorization", "Basic " + "0JDQtNC80LjQvdC40YHRgtGA0LDRgtC+0YA6engxMjN6eA==");//хардкод
-        //    //request.Headers.Add("Authorization", encodedAuth());
-        //    try
-        //    {
-        //        using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
-        //        {
+            request.Method = "GET";
+            request.KeepAlive = false;
+            request.Timeout = 60000;
+            string responseString ="";
+            request.Headers.Add("Authorization", "Basic " + "0JDQtNC80LjQvdC40YHRgtGA0LDRgtC+0YA6engxMjN6eA==");//хардкод
+            //request.Headers.Add("Authorization", encodedAuth());
+            try
+            {
+                using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+                {
 
-        //            using (var stream = response.GetResponseStream())
-        //            {
-        //                using (var reader = new StreamReader(stream))
-        //                {
-        //                    responseString = reader.ReadToEnd();
-        //                }
-        //            }
-        //        }
-        //    }     catch (Exception ex) { MessageBox.Show(ex.Message); }
+                    using (var stream = response.GetResponseStream())
+                    {
+                        using (var reader = new StreamReader(stream))
+                        {
+                            responseString = reader.ReadToEnd();
+                        }
+                    }
+                }
+            }     catch (Exception ex) { MessageBox.Show(ex.Message); }
 
-        //    if (debugMod.Checked) MessageBox.Show("ответ сервера: " + responseString);
+            if (debugMod.Checked) MessageBox.Show("ответ сервера: " + responseString);
 
-        //    //add pairs:
-        //    if (responseString != "") // I worry about if server back empty answer
-        //    {
-        //        responseString = responseString.TrimEnd(';');
-        //        string[] words = responseString.Split(new char[] { ';' });
+            //add pairs:
+            if (responseString != "") // I worry about if server back empty answer
+            {
+                responseString = responseString.TrimEnd(';');
+                string[] words = responseString.Split(new char[] { ';' });
 
-        //        foreach (string s in words)
-        //        {
-        //            string[] keys = s.Split(new char[] { ':' });
-        //            listik.Add(keys[0], keys[1]);
-        //        }
+                foreach (string s in words)
+                {
+                    string[] keys = s.Split(new char[] { ':' });
+                    listik.Add(keys[0], keys[1]);
+                }
 
-        //        //after server response:
-        //        string path = "\\Program Files\\QRPMK\\goods.bin";
-        //        if (debugMod.Checked) MessageBox.Show(path);
-        //        programFilesPath();
-        //        using (var stream = File.Open(path, FileMode.OpenOrCreate))
-        //        {
-        //            using (var writer = new BinaryWriter(stream, Encoding.UTF8))
-        //            {
-        //                writer.Write(listik.Count);
-        //                foreach (var pair in listik)
-        //                {
-        //                    writer.Write(pair.Key);
-        //                    writer.Write(pair.Value);
-        //                }
-        //            }
-        //        }
-        //        readGoods();
-        //        MessageBox.Show("Номенклатура обновлена!");
-        //    }
-        //}
+                //after server response:
+                string path = "\\Program Files\\QRPMK\\goods.bin";
+                if (debugMod.Checked) MessageBox.Show(path);
+                programFilesPath();
+                using (var stream = File.Open(path, FileMode.OpenOrCreate))
+                {
+                    using (var writer = new BinaryWriter(stream, Encoding.UTF8))
+                    {
+                        writer.Write(listik.Count);
+                        foreach (var pair in listik)
+                        {
+                            writer.Write(pair.Key);
+                            writer.Write(pair.Value);
+                        }
+                    }
+                }
+                readGoods();
+                MessageBox.Show("Номенклатура обновлена!");
+            }
+        }
 
         private void pictureBox2_DoubleClick(object sender, EventArgs e)
         {
@@ -733,100 +702,8 @@ namespace SmartDeviceProject1
         //This function is need for debugging and testing.
         private void button6_Click(object sender, EventArgs e)
         {
-            // Необходимо сделать запись в листБокс номера документов для дальнейшего их выбора
-            // Желательно номер документа и его дату через разделитель.
-            // В 1С-ке будет параметр для доработки созданной описи.
-            // Хранить созданные документы надо во внешнем файле, соответственно записывать туда созданные документы.
-
-
             programFilesPath();
-           // historyRead();
-            
-            // Сделать можно так, сперва добавляется в сортированный список, а затем уже по индексу из сорта добавлять в форменный список.
-            // Вопрос перфоманса думаю можно потом потестить. Если будет конечно рефакторинг, хотя в идеале андроид сделать.
-
-           
-            // В цикле его заполнить и проверить как много будет весить файл с этими записями.
-
-
-
-
-
-
-
-            // Ещё также надо создать логи в файле txt для дебага.
-            //Записывать логины, время работы кода, количество колес, и все последующие ошибки.
-
-
-            //Как сказал Алексей, это надо получить код 401, попробовать просто постучаться на сервер:
-
-        //    var url = serverText.Text + nameBase1c.Text + getMethod.Text + "?Login=" + login1c.Text + "&Pass=" + pass1c.Text; 
-        //            var request = (HttpWebRequest)WebRequest.Create(url);
-        //            request.Method = "GET";
-        //            request.KeepAlive = false;
-        //            request.Timeout = 9000;
-        //            for the test
-        //            MessageBox.Show(url);
-        //            string code = encodedAuth();
-        //            MessageBox.Show(code);
-        //            request.Headers.Add("Authorization", "Basic " + "0JDQtNC80LjQvdC40YHRgtGA0LDRgtC+0YA6");//хардкод
-                    
-        //            request.Headers.Add("Authorization", encodedAuth());
-        //            using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
-        //            {
-        //                string responseString;
-        //                using (var stream = response.GetResponseStream())
-        //                {
-        //                    using (var reader = new StreamReader(stream))
-        //                    {
-        //                        responseString = reader.ReadToEnd();
-        //                        MessageBox.Show(responseString);
-        //                        labelAuth.Text = responseString;
-                             
-        //                    }
-        //                }
-        //            }
-        //    string responseString = "Колесо цельнокатанное :00000000001; Колесо не цельнокатанное:00000000002; Квадратное колесо:00000000003; Треугольное колесо:00000000004; Колесо YOKOHAMA (Made in Japan):00000000005; Колесо железное:00000000006; Бракованное колесо №123:00000000007; Уехавшее колесо:00000000008; Хорошее колесо:00000000009; Последнее колесо:00000000010";
-        //    Dictionary<string, string> listik = new Dictionary<string, string>();
-        //    responseString = responseString.TrimEnd(';');
-        //    string[] words = responseString.Split(new char[] { ';' });
-
-        //    foreach (string s in words)
-        //    {
-        //        string[] keys = s.Split(new char[] { ':' });
-        //        listik.Add(keys[0], keys[1]);
-        //    }
-
-        //    //////
-        //    Запись в файл:
-        //    after server response:
-        //    string path = "\\Program Files\\goods.bin"; //TEST
-        //    using (var stream = File.Open(path, FileMode.OpenOrCreate))
-        //    {
-        //        using (var writer = new BinaryWriter(stream, Encoding.UTF8))
-        //        {
-        //            writer.Write(authLogin.Text);
-        //            writer.Write(authPass.Text);
-        //        }
-        //    }
-        //    Чтение из Файла:
-           
-        //    if (File.Exists(path))
-        //    {
-        //        using (var stream = File.Open(path, FileMode.Open))
-        //        {
-        //            using (var reader = new BinaryReader(stream, Encoding.UTF8))
-        //            {
-        //                And I have IDEA! Check the encoding when reading sting!
-        //                contents = reader.ReadToEnd();
-        //                authLogin.Text = reader.ReadString();
-        //               var ab = reader.ToString(). CurrentEncoding;
-        //                authPass.Text = reader.ReadString();
-        //                var ba  = reader.CurrentEncoding;
-        //            }
-
-        //        }
-        //    }
+ 
         }
     
         // Saving the list of docs:
@@ -836,7 +713,7 @@ namespace SmartDeviceProject1
            // if (historyDocs.Items.Count == 0) return;
             
             // string path = "\\Storage Card\\docs.bin";
-            string path = "\\Program Files\\QRPMK\\docs.bin";
+            string path = "\\Program Files\\nameProgram\\docs.bin";
 
             if (File.Exists(path))
                 {
@@ -862,7 +739,7 @@ namespace SmartDeviceProject1
         private void historyRead()
         {
             // string path = "\\Storage Card\\docs.bin";
-            string path = "\\Program Files\\QRPMK\\docs.bin";
+            string path = "\\Program Files\\nameProgram\\docs.bin";
             if (debugMod.Checked) MessageBox.Show(path);
             if (File.Exists(path))
             {
@@ -908,7 +785,7 @@ namespace SmartDeviceProject1
 
             DialogResult answer = MessageBox.Show
                 (
-                "Сохранить список колес на устройстве?",
+                "Сохранить список продукции на устройстве?",
                 "Подтверждение",
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Question,
@@ -928,13 +805,6 @@ namespace SmartDeviceProject1
                     return;
                 }
 
-                if (numberDoc.Text == "")
-                {
-                    MessageBox.Show("Без номера описи нельзя сохранить список колес! Заполните номер.");
-                    tabMenu.SelectedIndex = 1;
-                    return;
-                }
-
                 // Variant for .txt file:
                 string nameFile = "";
 
@@ -945,7 +815,7 @@ namespace SmartDeviceProject1
 
                 if (debugMod.Checked) MessageBox.Show(nameFile);
 
-                string path = "\\Program Files\\QRPMK\\" + nameFile + ".txt"; // For the test adress: "Program Files/" Storage Card; 
+                string path = "\\Program Files\\nameProgram\\" + nameFile + ".txt"; // For the test adress: "Program Files/" Storage Card; 
                 if (debugMod.Checked) MessageBox.Show(path);
                 //test:
                 // path = "\\Program Files\\goods.bin";
@@ -985,7 +855,7 @@ namespace SmartDeviceProject1
                 numberDoc.Text = "";
                 countWheels.Text = "Всего: ";
                 textBox1.Focus();
-                MessageBox.Show("Опись вагона сохранена!");
+                MessageBox.Show("Документ сохранен!");
 
             } else historyDocs.Items.Add("№" + numberDoc.Text + " " + DateTime.Now); //answer if;
         }
@@ -1002,7 +872,7 @@ namespace SmartDeviceProject1
                     foreach (char c in nameDoc)
                         if (char.IsNumber(c)) num += c;
 
-                    string path = "\\Program Files\\QRPMK\\" + num + ".txt"; // For the test adress: "Program Files/" Storage Card; 
+                    string path = "\\Program Files\\nameProgram\\" + num + ".txt"; // For the test adress: "Program Files/" Storage Card; 
                     if (debugMod.Checked) MessageBox.Show(path);
                     //test:
                     // path = "\\Program Files\\goods.bin";
@@ -1039,13 +909,6 @@ namespace SmartDeviceProject1
                 return;
             }
             
-            //Тут надо заполнить значение номера:
-            // Два знака с края и косая полоса
-            // №*НомерДокумента*_*Дата* Слева -1, справа ищем пробел.
-            //string num = historyDocs.SelectedItem.ToString();
-            //int end = num.IndexOf(" ");
-            //int start = num.IndexOf("№");
-            //num = num.Substring(start+1, end);
 
             numberDoc.Text = nameOfDoc(historyDocs.SelectedItem.ToString());
 
@@ -1061,7 +924,7 @@ namespace SmartDeviceProject1
                 {
                     DialogResult answer2 = MessageBox.Show
                           (
-                          "Очистить список колес?",
+                          "Очистить список продукции?",
                           "Подтверждение",
                           MessageBoxButtons.YesNo,
                           MessageBoxIcon.Question,
@@ -1081,7 +944,7 @@ namespace SmartDeviceProject1
                     if (char.IsNumber(c)) num += c;
 
                 //  Чтение файла и загрузка кодов из него в список кодов:
-                string path = "\\Program Files\\QRPMK\\" + num + ".txt"; // For the test adress: "Program Files/" Storage Card; 
+                string path = "\\Program Files\\nameProgram\\" + num + ".txt"; // For the test adress: "Program Files/" Storage Card; 
                 if (debugMod.Checked) MessageBox.Show(path);
                 //test:
                 // path = "\\Program Files\\goods.bin";
@@ -1123,14 +986,14 @@ namespace SmartDeviceProject1
             if (numberDoc.Text == "")
             {
                 tabMenu.SelectedIndex = 1;
-                MessageBox.Show("Сперва укажите номер описи!");
+                MessageBox.Show("Сперва укажите номер документа!");
                 return;
             }
 
             if (listCodes.Items.Count == 0)
             {
                 tabMenu.SelectedIndex = 1;
-                MessageBox.Show("Список колес пуст! Нельзя сохранять пустую опись.");
+                MessageBox.Show("Список продукции пуст!");
                 return;
             }
          
@@ -1141,13 +1004,13 @@ namespace SmartDeviceProject1
 
         private void programFilesPath()
         {
-            string path = "\\Program Files\\QRPMK\\";
+            string path = "\\Program Files\\nameProgram\\";
             if (!File.Exists(path))
             {
                 System.IO.Directory.CreateDirectory(path);
             }
         }
 
-        
+  
     }// end of class form1;
 }
