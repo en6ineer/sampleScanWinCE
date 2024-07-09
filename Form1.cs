@@ -67,7 +67,6 @@ namespace SmartDeviceProject1
                 }
                 textBox1.Text = "";
 
-                //Можно сделать массив разделителей, и по ним определять коды и в цикле их добавлять в список.
             }
 
             while (textBox1.Text.Contains("HotMarkingNumber"))
@@ -229,17 +228,8 @@ namespace SmartDeviceProject1
                     request.KeepAlive = false;
                     request.Timeout = 120000; //2 минуты, вдруг вайфай лагать будет
 
-                    //How check the encoding standard?
-                    //But if password on russian, and login will be on english? Pair encoding with determining...
-                 
-                     //var byteArray1 = Encoding.UTF8.GetBytes(authLogin.Text+":");
-                     //var byteArray2 = Encoding.ASCII.GetBytes(authPass.Text);
-                     //client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
-                   // request.Headers.Add("Authorization", encodedAuth());
                     //Write body:
                     request.Headers.Add("Authorization", "Basic " + "base64 code of login:pass");
-
-                    //UTF8Encoding encoding = new UTF8Encoding(); // - not work!
                     ASCIIEncoding encoding = new ASCIIEncoding();
                     byte[] data = encoding.GetBytes(preData);
                     request.ContentLength = data.Length;
